@@ -54,12 +54,7 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                        <div class="user-header">
-                            <div class="user-text">
-                                <h6>{{$name_with_initial = auth()->guard('student')->user()->name_with_initial;}}</h6>
-                                <p class="text-muted mb-0">Student</p>
-                            </div>
-                        </div>
+                     
                         <a class="dropdown-item" href="{{ route('student/logout') }}">Logout</a>
                     </div>
                 </li>
@@ -69,48 +64,92 @@
         </div>
 
 
-            <div class="content container mt-5">
-                <div class="page-header mt-5">
-                    <div class="row">
-                        <div class="col mt-5">
-                            <ul class="breadcrumb">
-                                <button class="btn btn-success">Download</button>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="content container mt-5">
+            <div class="page-header mt-5">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Please Download Your Certificate</h5>
-                            </div>
-                            <div class="card-body">
-                                <form action="#">
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->register_date;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->effective_date_of_certificate;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->registration_no;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->reference_no;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->certificate_no;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->full_name_of_student;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->name_with_initial;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->nic_no;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->address;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->course_name;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->year;}}</h6>
-                                    <h6>{{$name_with_initial = auth()->guard('student')->user()->batch_id;}}</h6>
-                                </form>
-                            </div>
-                        </div>
+                    <div class="col mt-5">
+                        <ul class="breadcrumb">
 
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <footer>
-                <p>Copyright © 2022 Dreamguys.</p>
-            </footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="m-4 d-flex justify-content-between">
+                            <h5 class="card-title">Please Download Your Certificate</h5>
+                            <a class="btn btn-outline-success" href="{{ route('certificate-pdf') }}" role="button"><i class="fas fa-cloud-download-alt"></i> Download</a>
+                        </div>
+                        <div class="card-body">
+
+
+
+                             <p>Registration Date: {{ $student->register_date }}</p>
+                                <p>Effective Date of Certificate{{ $student->effective_date_of_certificate }}</p>
+                                <p>Full Name of Student{{ $student->full_name_of_student }}</p>
+                                <p>Reference No{{ $student->reference_no }}</p>
+                                <p>Name With Initial {{ $student->name_with_initial }}</p>
+                                <p>Registration No: {{ $student->registration_no }}</p>
+                                <p>Certificate No: {{ $student->certificate_no }}</p>
+                                <p>NIC No: {{ $student->nic_no }}</p>
+                                <p>Address: {{ $student->address }}</p>
+                                <p>Course Name: {{ $course->course_name }}</p>
+                                <p>Year: {{ $student->batch->course_year }}</p>
+                                <p>Batch No: {{ $student->batch->batch_no }}</p>
+
+                                {{-- <h6>{{$name_with_initial = auth()->guard('student')->user()->register_date;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->effective_date_of_certificate;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->registration_no;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->reference_no;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->certificate_no;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->full_name_of_student;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->name_with_initial;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->nic_no;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->address;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->course_name;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->year;}}</h6>
+                                <h6>{{$name_with_initial = auth()->guard('student')->user()->batch_id;}}</h6> --}}
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+
+                        <div class="card-body">
+
+                                <p>Registration Date: {{ $student->register_date }}</p>
+                                <p>Effective Date of Certificate{{ $student->effective_date_of_certificate }}</p>
+                                <p>Full Name of Student{{ $student->full_name_of_student }}</p>
+                                <p>Reference No{{ $student->reference_no }}</p>
+                                <p>Name With Initial {{ $student->name_with_initial }}</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+
+                        <div class="card-body">
+                                <p>Registration Date: {{ $student->register_date }}</p>
+                                <p>Effective Date of Certificate{{ $student->effective_date_of_certificate }}</p>
+                                <p>Full Name of Student{{ $student->full_name_of_student }}</p>
+                                <p>Reference No{{ $student->reference_no }}</p>
+                                <p>Name With Initial {{ $student->name_with_initial }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>Copyright © 2022 Dreamguys.</p>
+        </footer>
 
 
 
@@ -130,3 +169,4 @@
     <script src="assets/js/script.js"></script>
 </body>
 </html>
+

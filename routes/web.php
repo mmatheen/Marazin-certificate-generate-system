@@ -44,10 +44,10 @@ function set_active($route)
 }
 
 
-
 // without login you can't go to any page
 Route::middleware(['auth:student'])->group(function () {
 
+    Route::get('generate-pdf', [StudentController::class, 'generatePDF'])->name('certificate-pdf');
     Route::get('/student-certificate', [StudentController::class, 'studentCertificate'])->name('student-certificate');
 });
 
@@ -65,6 +65,8 @@ Route::middleware(['auth:web'])->group(function () {
         Route::post('/student-store', [StudentController::class, 'store']);
         Route::post('/student-update/{id}', [StudentController::class, 'update']);
         Route::delete('/student-delete/{id}', [StudentController::class, 'destroy']);
+
+
 
         Route::get('/batch-get-by-courseName/{course_id}', [StudentController::class, 'showBatchAndYear'])->name('batch-get-by-courseName');
         Route::get('/batch-get-by-batch-no/{batch_id}', [StudentController::class, 'showBatchYear'])->name('batch-get-by-batch-no');

@@ -11,14 +11,51 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class StudentController extends Controller
 {
     public function studentCertificate()
     {
-        return view('certificate_page.certificate_page');
+           // Retrieve the authenticated student's details
+           $student = auth()->guard('student')->user();
+
+           // Retrieve the course details through the student's batch
+           $course = $student->batch->course;
+
+           // Prepare the data to pass to the Blade view
+           $data = [
+               'student' => $student,
+               'course' => $course,
+           ];
+
+        return view('certificate_page.certificate_page', $data);
     }
+
+    public function generatePDF()
+    {
+        // Retrieve the authenticated student's details
+        $student = auth()->guard('student')->user();
+
+        // Retrieve the course details through the student's batch
+        $course = $student->batch->course;
+
+        // Prepare the data to pass to the Blade view
+        $data = [
+            'student' => $student,
+            'course' => $course,
+        ];
+
+        // Generate the PDF using the Blade view
+        $pdf = PDF::loadView('students.certificate_pdf', $data);
+
+        // Download the PDF
+        return $pdf->download($student->name_with_initial. '.pdf');//'certificate.pdf'
+    }
+
+
+
 
 
     public function student()

@@ -29,6 +29,7 @@
                                 <button type="button" class="btn btn-outline-info " id="addStudentButton">
                                     New <i class="fas fa-plus px-2"> </i>
                                 </button>
+                               
                             </div>
                         </div>
                     </div>
