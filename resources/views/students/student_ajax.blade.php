@@ -385,6 +385,8 @@
         // Check if a file is selected
         if (fileInput.files.length === 0) {
             $('#file_error').html('Please select the excel format file.');
+            document.getElementsByClassName('errorSound')[0].play(); //for sound
+            toastr.error('Please select the excel format file' ,'Error');
             return;
         } else {
             $('#file_error').html('');
@@ -420,6 +422,7 @@
                         $('#' + key + '_error').html(err_value); // Assuming there's only one file input with id 'leadFile'
                         document.getElementsByClassName('errorSound')[0].play(); //for sound
                         toastr.error(err_value,'Error');
+
                     });
                     $('.progress').hide(); // Hide progress bar on validation error
                 } else if (response.status == 200) {

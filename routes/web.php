@@ -67,7 +67,6 @@ Route::middleware(['auth:web'])->group(function () {
         Route::delete('/student-delete/{id}', [StudentController::class, 'destroy']);
 
 
-
         Route::get('/batch-get-by-courseName/{course_id}', [StudentController::class, 'showBatchAndYear'])->name('batch-get-by-courseName');
         Route::get('/batch-get-by-batch-no/{batch_id}', [StudentController::class, 'showBatchYear'])->name('batch-get-by-batch-no');
 

@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 
-class StudentExportTemplate implements FromCollection, WithHeadings
+class StudentExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -27,8 +27,6 @@ class StudentExportTemplate implements FromCollection, WithHeadings
             'Address',
             'Course Name',
             'Year',
-            'created_at',
-
         ];
     }
 
@@ -48,7 +46,6 @@ class StudentExportTemplate implements FromCollection, WithHeadings
             'address',
             'course_name',
             'year',
-            'created_at',
         )->get();
     }
 }

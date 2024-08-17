@@ -26,8 +26,6 @@ class StudentExportTemplate implements FromCollection, WithHeadings
             'Address',
             'Course Name',
             'Year',
-            'created_at',
-
         ];
     }
 

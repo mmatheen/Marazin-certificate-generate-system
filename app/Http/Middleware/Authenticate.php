@@ -10,31 +10,25 @@ class Authenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
+
+
     protected function redirectTo(Request $request): ?string
     {
 
-        if (!$request->expectsJson()) {
-            // Flash an alert message to the session
-            session()->flash('toastr-error', 'Your session has expired. Please log in again.');
-            return route('userLogin'); // Redirect to the login route
+
+        // Check if the request is from the 'web' guard
+        if ($this->auth->guard('web')->guest()) {
+            session()->flash('toastr-error', 'Unauthorized access. You do not have permission to access this page without login.');
+            return route('userLogin'); // Redirect to the user login route
         }
 
-        // Check for web guard
-        if ($this->auth->guard('web')->check()) {
-        // Flash an alert message to the session
-        session()->flash('toastr-error', 'Unauthorized access. You do not have permission to access this Page without login.');
-            return $request->expectsJson() ? null : route('userLogin');
-        }
-        // Check for student guard
-        if ($this->auth->guard('student')->check()) {
-             // Flash an alert message to the session
-             session()->flash('toastr-error', 'Unauthorized access. You do not have permission to access this Page without login.');
-            return $request->expectsJson() ? null : route('student/login');
+        // Check if the request is from the 'student' guard
+        if ($this->auth->guard('student')->guest()) {
+            session()->flash('toastr-error', 'Unauthorized access. You do not have permission to access this page without login.');
+            return route('student/login'); // Redirect to the student login route
         }
 
+        // Default redirection
         return $request->expectsJson() ? null : route('userLogin');
-         // Flash an alert message to the session
-         session()->flash('toastr-error', 'Unauthorized access. You do not have permission to access this Page without login.');
-
     }
 }

@@ -3,30 +3,28 @@
 namespace App\Imports;
 
 use App\Models\Student;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Facades\Log;
 
 class StudentImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
+       // dd($row); // This will stop execution and dump the row data
 
-            return new Student([
-                'register_date' => $row['Registeration Date'],
-                'effective_date_of_certificate' => $row['Effective Date of Certificate'],
-                'registration_no' => $row['Registration No'],
-                'reference_no' => $row['Reference No'],
-                'certificate_no' => $row['Certificate No'],
-                'batch_id' => $row['Batch ID'],
-                'full_name_of_student' => $row['Full Name of Student'],
-                'name_with_initial' => $row['Name With Initial'],
-                'nic_no' => $row['NIC No'],
-                'address' => $row['Address'],
-                'course_name' => $row['Course Name'],
-                'year' => $row['Year'],
-            ]);
-
+        return new Student([
+            'register_date' => $row['registeration_date'],
+            'effective_date_of_certificate' => $row['effective_date_of_certificate'],
+            'registration_no' => $row['registration_no'],
+            'reference_no' => $row['reference_no'],
+            'certificate_no' => $row['certificate_no'],
+            'batch_id' => $row['batch_id'],
+            'full_name_of_student' => $row['full_name_of_student'],
+            'name_with_initial' => $row['name_with_initial'],
+            'nic_no' => $row['nic_no'],
+            'address' => $row['address'],
+            'course_name' => $row['course_name'],
+            'year' => $row['year'],
+        ]);
     }
 }

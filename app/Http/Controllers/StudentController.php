@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\StudentExportTemplate;
+use App\Exports\StudentExport;
 use App\Imports\StudentImport;
 use App\Models\Batch;
 use App\Models\Course;
@@ -48,7 +49,8 @@ class StudentController extends Controller
         ];
 
         // Generate the PDF using the Blade view
-        $pdf = PDF::loadView('students.certificate_pdf', $data);
+        $pdf = PDF::loadView('students.certificate_pdf', $data)
+        ->setPaper('A4', 'landscape');
 
         // Download the PDF
         return $pdf->download($student->name_with_initial. '.pdf');//'certificate.pdf'
@@ -399,11 +401,11 @@ class StudentController extends Controller
     }
     public function exportBlankTemplate()
     {
-        return Excel::download(new StudentExportTemplate, 'Student Template.xlsx');
+        return Excel::download(new StudentExportTemplate, 'Student Blank Template.xlsx');
     }
     public function export()
     {
-        return Excel::download(new StudentExportTemplate, 'Student Template.xlsx');
+        return Excel::download(new StudentExport, 'Student Details.xlsx');
     }
 
 
