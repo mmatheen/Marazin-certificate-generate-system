@@ -16,15 +16,15 @@ return new class extends Migration
             $table->increments('id');
             $table->string('register_date');
             $table->string('effective_date_of_certificate');
-            $table->string('registration_no');
-            $table->string('reference_no');
-            $table->string('certificate_no');
+            $table->string('registration_no')->nullable();
+            $table->string('reference_no')->nullable();
+            $table->string('certificate_no')->nullable();
             $table->string('full_name_of_student');
             $table->string('name_with_initial');
             $table->string('nic_no');
             $table->string('address');
-            $table->string('course_name');
-            $table->string('year');
+            $table->string('course_name')->nullable();
+            $table->string('year')->nullable();
             $table->integer('batch_id')->unsigned();
             $table->timestamps();
 

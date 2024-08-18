@@ -3,28 +3,47 @@
 namespace App\Imports;
 
 use App\Models\Student;
+use App\Models\Batch;
+use App\Models\Course;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class StudentImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
-    {
-       // dd($row); // This will stop execution and dump the row data
+{
+    // dd($row);
+  // Convert Excel serial dates to PHP date format
+  $registerDate = Date::excelToDateTimeObject($row['registeration_date'])->format('Y-m-d');
+  $effectiveDate = Date::excelToDateTimeObject($row['effective_date_of_certificate'])->format('Y-m-d');
 
-        return new Student([
-            'register_date' => $row['registeration_date'],
-            'effective_date_of_certificate' => $row['effective_date_of_certificate'],
-            'registration_no' => $row['registration_no'],
-            'reference_no' => $row['reference_no'],
-            'certificate_no' => $row['certificate_no'],
-            'batch_id' => $row['batch_id'],
-            'full_name_of_student' => $row['full_name_of_student'],
-            'name_with_initial' => $row['name_with_initial'],
-            'nic_no' => $row['nic_no'],
-            'address' => $row['address'],
-            'course_name' => $row['course_name'],
-            'year' => $row['year'],
-        ]);
-    }
+  // Find the course based on the course_name
+  $course = Course::where('course_name', $row['course_name'])->first();
+
+  // Ensure the course is found
+  if (!$course) {
+      throw new \Exception('Course not found: ' . $row['course_name']);
+  }
+
+  // Find the batch using the batch_no and course_id
+  $batch = Batch::where('batch_no', $row['batch_no'])->where('course_id', $course->id)->first();
+
+  // Ensure the batch is found
+  if (!$batch) {
+      throw new \Exception('Batch not found for batch_no: ' . $row['batch_no'] . ' and course_id: ' . $course->id);
+  }
+
+    return new Student([
+        'register_date' => $registerDate,
+        'effective_date_of_certificate' => $effectiveDate,
+        'batch_id' => $batch->id,
+        'full_name_of_student' => $row['full_name_of_student'],
+        'name_with_initial' => $row['name_with_initial'],
+        'nic_no' => $row['nic_no'],
+        'address' => $row['address'],
+        'year' => $batch->course_year,
+        'course_name' => $course->id,
+    ]);
+}
 }

@@ -16,16 +16,13 @@ class StudentExportTemplate implements FromCollection, WithHeadings
             'ID',
             'Registeration Date',
             'Effective Date of Certificate',
-            'Registration No',
-            'Reference No',
-            'Certificate No',
-            'Batch ID',
+            'Batch No',
             'Full Name of Student',
             'Name With Initial',
             'NIC No',
             'Address',
             'Course Name',
-            'Year',
+            'Course Year',
         ];
     }
 
