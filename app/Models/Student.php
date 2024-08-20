@@ -27,6 +27,7 @@ class Student extends Authenticatable
         'address',
         'course_name',
         'year',
+        'session_id',
     ];
 
     public function batch()

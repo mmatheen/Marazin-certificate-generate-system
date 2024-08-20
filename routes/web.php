@@ -53,7 +53,7 @@ Route::middleware(['auth:student'])->group(function () {
 
 // without login you can't go to any page and
 
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth:web','auth.session'])->group(function () {
 
     // Routes accessible to both admin and SuperAdmin
     Route::middleware(['RoleType:Admin,Super Admin'])->group(function () {
@@ -100,7 +100,7 @@ Route::middleware(['auth:web'])->group(function () {
 });
 
 // without logout you can't go to login page
-Route::middleware(['guest:web'])->group(function () {
+Route::middleware(['guest:web','auth.session'])->group(function () {
 
     Route::get('/', [AuthenticationController::class, 'userLogin'])->name('userLogin');
 });

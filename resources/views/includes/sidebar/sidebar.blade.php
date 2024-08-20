@@ -6,10 +6,10 @@
                     <span>Main Menu</span>
                 </li>
 
-                <li class="submenu {{ set_active(['admin-dashboard']) }}">
+                <li class="submenu {{ set_active(['dashboard']) }}">
                     <a href="#"><i class="feather-grid"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{ route('admin-dashboard') }}" class="{{ set_active(['admin-dashboard']) }}">Admin Dashboard</a></li>
+                        <li><a href="{{ route('admin-dashboard') }}" class="{{ set_active(['dashboard']) }}">Admin Dashboard</a></li>
                     </ul>
                 </li>
 

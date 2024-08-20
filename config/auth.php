@@ -36,7 +36,6 @@ return [
     |
     */
 
-
     'guards' => [
 
         'web' => [
@@ -65,7 +64,6 @@ return [
     | Supported: "database", "eloquent"
     |
     */
-
 
     'providers' => [
 

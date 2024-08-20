@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticationController extends Controller
 {
@@ -33,6 +34,20 @@ class AuthenticationController extends Controller
         // Attempt to authenticate the user
         if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
             $user = Auth::user();
+
+            // Check if user is already logged in on another device
+            if ($user->session_id && $user->session_id !== Session::getId()) {
+                auth()->guard('web')->logout();
+
+                return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
+            }
+
+            // Store the current session ID
+            if ($user && $user instanceof \App\Models\User) {
+                $user->session_id = Session::getId();
+                $user->save();
+            }
+
             $userName = $user->name;
 
             switch ($user->roleType) {
@@ -53,14 +68,19 @@ class AuthenticationController extends Controller
         }
     }
 
+
     public function userLogout()
     {
+        $user = Auth::guard('web')->user(); // Retrieve the authenticated user
+        if ($user && $user instanceof \App\Models\User) {
+            $user->session_id = null; // Clear the session ID
+            $user->save();
+        }
         auth()->guard('web')->logout();
+        Session::invalidate(); // Invalidate the session
         return redirect('/')->with('toastr-success', 'Logout Successfully!');
     }
-
-
-// student
+    // student
 
     public function studentLogin()
     {
@@ -80,6 +100,7 @@ class AuthenticationController extends Controller
             return redirect()->route('student/login')->withErrors($validator)->withInput()->with('toastr-error', 'NIC and Registration No are required!');
         }
 
+
         // Manually authenticate the student without a password
         $student = Student::where('nic_no', $request->nic_no)
             ->where('registration_no', $request->registration_no)
@@ -88,6 +109,18 @@ class AuthenticationController extends Controller
         if ($student) {
             Auth::guard('student')->login($student);
 
+            // Check if user is already logged in on another device
+            if ($student->session_id && $student->session_id !== Session::getId()) {
+                auth()->guard('web')->logout();
+
+                return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
+            }
+
+            // Store the current session ID
+            if ($student && $student instanceof \App\Models\Student) {
+                $student->session_id = Session::getId();
+                $student->save();
+            }
             $userName = $student->full_name_of_student;
 
             return redirect()->route('student-certificate')
@@ -100,9 +133,16 @@ class AuthenticationController extends Controller
 
     public function studentLogout()
     {
-        auth()->guard('student')->logout();
+        $student = Auth::guard('student')->user(); // Retrieve the authenticated student
+        if ($student && $student instanceof \App\Models\Student) {
+            $student->session_id = null; // Clear the session ID
+            $student->save();
+        }
+        auth()->guard('web')->logout();
+        Session::invalidate(); // Invalidate the session
         return redirect('student-login')->with('toastr-success', 'Logout Successfully!');
     }
+
+
+
 }
-
-
