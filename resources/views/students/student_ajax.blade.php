@@ -163,6 +163,12 @@
                         response.message.forEach(function(item) {
                                 let row = $('<tr>');
                                 row.append('<td>' + counter  + '</td>');
+                                if (item.picture) {
+                                    row.append('<td><img src="/images/' + item.picture + '" width="50px" class="rounded-circle" height="50px" alt="image"></td>');
+                                } else {
+                                // Provide default image path
+                                row.append('<td><img src="assets/img/default-image.jpg" width="50px" class="rounded-circle" height="50px" alt="default image"></td>');
+                                 }
                                 row.append('<td>' + item.register_date + '</td>');
                                 row.append('<td>' + item.effective_date_of_certificate + '</td>');
                                 row.append('<td>' + item.registration_no + '</td>');
@@ -210,11 +216,37 @@
                         $('#edit_batch_id').val(response.message.batch.batch_no);
                         $('#edit_year').val(response.message.batch.course_year);
                         $('#edit_address').val(response.message.address);
+                        if (response.message.picture) {
+                            $('#selectedImage').attr('src', 'images/' + response.message.picture);
+                            } else {
+                                // Provide default image path
+                                $('#selectedImage').attr('src', 'assets/img/default-image.jpg');
+                            }
+                            // Set src attribute
+                            $('#selectedImage').css('display', 'inline-block'); // Ensure image is displayed
                         $('#addAndEditStudentModal').modal('show');
                     }
                 }
             });
         });
+
+
+             // show the image when add and edit
+             $(".show-picture").on("change", function () {
+                const input = this;
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // Update the src attribute of the img tag with the data URL of the selected image
+                        $("#selectedImage").attr("src", e.target.result);
+                        $("#selectedImage").show(); // Show the image
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+            // show the image when add and edit image code end
 
 
         // Submit Add/Update Form
@@ -224,7 +256,7 @@
              // Validate the form before submitting
             if (!$('#addAndUpdateForm').valid()) {
                    document.getElementsByClassName('errorSound')[0].play(); //for sound
-                   toastr.error('Please fill in all the required fields.','Error');
+                   toastr.error('Invalid inputs, Check & try again!!','Error');
                 return; // Return if form is not valid
             }
 

@@ -21,6 +21,34 @@
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        #certificate {
+            background-image: url("assets/certificate-images/certificate-template.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            /* Adjusted to fit within A4 size */
+            height: 100vh;
+            /* Ensure the body takes up the full viewport height */
+            width: 100%;
+            /* Ensure the body takes up the full width */
+            margin: 0;
+            padding: 0;
+        }
+
+        #studentName {
+            position: absolute;
+            top: 46%;
+            /* Adjust this value to move the name up or down */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+            font-weight: bold;
+            color: #6a00d1;
+            /* Adjust color to match the certificate theme */
+        }
+
+    </style>
 </head>
 <body>
 
@@ -47,6 +75,8 @@
                 <li class="nav-item dropdown has-arrow new-user-menus">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
+                            <img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31"
+                            alt="Soeng Souy">
                             <div class="user-text">
                                 <h6>{{$name_with_initial = auth()->guard('student')->user()->name_with_initial;}}</h6>
                                 <p class="text-muted mb-0">Student</p>
@@ -54,9 +84,10 @@
                         </span>
                     </a>
                     <div class="dropdown-menu">
-                     
+
                         <a class="dropdown-item" href="{{ route('student/logout') }}">Logout</a>
                     </div>
+
                 </li>
 
             </ul>
@@ -82,9 +113,19 @@
                             <h5 class="card-title">Please Download Your Certificate</h5>
                             <a class="btn btn-outline-success" href="{{ route('certificate-pdf') }}" role="button"><i class="fas fa-cloud-download-alt"></i> Download</a>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body mb-5" id="certificate">
 
+                        </div>
+                        <div id="studentName">
+                            <p>{{ $student->full_name_of_student }}</p>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+
+                        <div class="card-body mt-3">
 
                              <p>Registration Date: {{ $student->register_date }}</p>
                                 <p>Effective Date of Certificate{{ $student->effective_date_of_certificate }}</p>
@@ -146,6 +187,7 @@
             </div>
 
         </div>
+
 
         <footer>
             <p>Copyright © 2022 Dreamguys.</p>

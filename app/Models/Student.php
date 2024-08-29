@@ -27,6 +27,7 @@ class Student extends Authenticatable
         'address',
         'course_name',
         'year',
+        'picture',
         'session_id',
     ];
 

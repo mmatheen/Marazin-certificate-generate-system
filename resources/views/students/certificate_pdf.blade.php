@@ -5,27 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
     <style>
-    body {
-    background-image: url("assets/certificate-images/certificate-template.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: contain; /* Adjusted to fit within A4 size */
-    height: 100vh; /* Ensure the body takes up the full viewport height */
-    width: 100%; /* Ensure the body takes up the full width */
-    margin: 0;
-    padding: 0;
-}
+        body {
+            background-image: url("assets/certificate-images/certificate-template.png");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: contain;
+            /* Adjusted to fit within A4 size */
+            height: 100vh;
+            /* Ensure the body takes up the full viewport height */
+            width: 100%;
+            /* Ensure the body takes up the full width */
+            margin: 0;
+            padding: 0;
+        }
 
         #studentName {
             position: absolute;
-            top: 42%; /* Adjust this value to move the name up or down */
+            top: 42%;
+            /* Adjust this value to move the name up or down */
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 25px;
             font-weight: bold;
-            color: #6a00d1; /* Adjust color to match the certificate theme */
+            color: #6a00d1;
+            /* Adjust color to match the certificate theme */
         }
+
     </style>
 </head>
 <body>

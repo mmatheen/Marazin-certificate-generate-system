@@ -36,17 +36,17 @@ class AuthenticationController extends Controller
             $user = Auth::user();
 
             // Check if user is already logged in on another device
-            if ($user->session_id && $user->session_id !== Session::getId()) {
-                auth()->guard('web')->logout();
+            // if ($user->session_id && $user->session_id !== Session::getId()) {
+            //     auth()->guard('web')->logout();
 
-                return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
-            }
+            //     return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
+            // }
 
-            // Store the current session ID
-            if ($user && $user instanceof \App\Models\User) {
-                $user->session_id = Session::getId();
-                $user->save();
-            }
+            // // Store the current session ID
+            // if ($user && $user instanceof \App\Models\User) {
+            //     $user->session_id = Session::getId();
+            //     $user->save();
+            // }
 
             $userName = $user->name;
 
@@ -78,7 +78,7 @@ class AuthenticationController extends Controller
         }
         auth()->guard('web')->logout();
         Session::invalidate(); // Invalidate the session
-        return redirect('/')->with('toastr-success', 'Logout Successfully!');
+        return redirect('/user-login')->with('toastr-success', 'Logout Successfully!');
     }
     // student
 
@@ -110,23 +110,23 @@ class AuthenticationController extends Controller
             Auth::guard('student')->login($student);
 
             // Check if user is already logged in on another device
-            if ($student->session_id && $student->session_id !== Session::getId()) {
-                auth()->guard('web')->logout();
+            // if ($student->session_id && $student->session_id !== Session::getId()) {
+            //     auth()->guard('web')->logout();
 
-                return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
-            }
+            //     return redirect()->route('userLogin')->with('toastr-error', 'Your account is already logged in on another device.');
+            // }
 
-            // Store the current session ID
-            if ($student && $student instanceof \App\Models\Student) {
-                $student->session_id = Session::getId();
-                $student->save();
-            }
+            // // Store the current session ID
+            // if ($student && $student instanceof \App\Models\Student) {
+            //     $student->session_id = Session::getId();
+            //     $student->save();
+            // }
             $userName = $student->full_name_of_student;
 
             return redirect()->route('student-certificate')
                 ->with('toastr-success', 'You Logged in Successfully! ' . $userName);
         } else {
-            return redirect('student-login')->with('toastr-error', 'NIC and Registration No do not match!');
+            return redirect('/')->with('toastr-error', 'NIC and Registration No do not match!');
         }
     }
 
@@ -140,9 +140,7 @@ class AuthenticationController extends Controller
         }
         auth()->guard('web')->logout();
         Session::invalidate(); // Invalidate the session
-        return redirect('student-login')->with('toastr-success', 'Logout Successfully!');
+        return redirect('/')->with('toastr-success', 'Logout Successfully!');
     }
-
-
 
 }

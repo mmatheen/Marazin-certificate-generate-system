@@ -14,6 +14,7 @@ class StudentExportTemplate implements FromCollection, WithHeadings
     {
         return [
             'ID',
+            'Picture',
             'Registeration Date',
             'Effective Date of Certificate',
             'Batch No',

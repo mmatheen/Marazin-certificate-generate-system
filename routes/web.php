@@ -5,9 +5,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
-use App\Models\Batch;
-use App\Models\Course;
-use App\Models\Student;
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -31,6 +29,11 @@ Route::get('/testing', function () {
     //     dd('Student not found');
     // }
 
+});
+
+//this is call error page
+Route::fallback(function () {
+    return view('ErrorPage404.404errorpage');
 });
 
 function set_active($route)
@@ -66,9 +69,11 @@ Route::middleware(['auth:web','auth.session'])->group(function () {
         Route::post('/student-update/{id}', [StudentController::class, 'update']);
         Route::delete('/student-delete/{id}', [StudentController::class, 'destroy']);
 
-
         Route::get('/batch-get-by-courseName/{course_id}', [StudentController::class, 'showBatchAndYear'])->name('batch-get-by-courseName');
         Route::get('/batch-get-by-batch-no/{batch_id}', [StudentController::class, 'showBatchYear'])->name('batch-get-by-batch-no');
+        // Student multiple image upload routes
+        Route::get('/multiple-image', [StudentController::class, 'studentMultipleImageUpload'])->name('multiple-image');
+        Route::post('/upload-images', [StudentController::class, 'uploadImages'])->name('upload-images');
 
         // Batch routes
         Route::get('/batch', [BatchController::class, 'batch'])->name('batch');
@@ -102,15 +107,14 @@ Route::middleware(['auth:web','auth.session'])->group(function () {
 // without logout you can't go to login page
 Route::middleware(['guest:web','auth.session'])->group(function () {
 
-    Route::get('/', [AuthenticationController::class, 'userLogin'])->name('userLogin');
+    Route::get('/user-login', [AuthenticationController::class, 'userLogin'])->name('userLogin');
 });
 
 // without logout you can't go to student login page
 Route::middleware(['guest:student'])->group(function () {
 
-    Route::get('student-login', [AuthenticationController::class, 'studentLogin'])->name('student/login');
+    Route::get('/', [AuthenticationController::class, 'studentLogin'])->name('student/login');
 });
-
 
 Route::post('/user/login', [AuthenticationController::class, 'userLoginCheck'])->name('user/login');
 Route::get('/user/logout', [AuthenticationController::class, 'userLogout'])->name('user/logout');

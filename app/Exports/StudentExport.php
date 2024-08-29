@@ -15,6 +15,7 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'ID',
+            'Picture',
             'Registration Date',
             'Effective Date of Certificate',
             'Registration No',
@@ -46,6 +47,7 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
 
         return [
             $student->id,
+            $student->picture,
             $student->register_date,
             $student->effective_date_of_certificate,
             $student->registration_no,
@@ -58,6 +60,7 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
             $student->name_with_initial,
             $student->nic_no,
             $student->address,
+           
         ];
     }
 }

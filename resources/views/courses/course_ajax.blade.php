@@ -115,7 +115,7 @@
              // Validate the form before submitting
             if (!$('#addAndUpdateForm').valid()) {
                    document.getElementsByClassName('errorSound')[0].play(); //for sound
-                   toastr.error('Please fill in all the required fields.','Error');
+                   toastr.error('Invalid inputs, Check & try again!!','Error');
                 return; // Return if form is not valid
             }
 

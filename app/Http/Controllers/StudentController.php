@@ -19,20 +19,72 @@ class StudentController extends Controller
 {
     public function studentCertificate()
     {
-           // Retrieve the authenticated student's details
-           $student = auth()->guard('student')->user();
+        // Retrieve the authenticated student's details
+        $student = auth()->guard('student')->user();
 
-           // Retrieve the course details through the student's batch
-           $course = $student->batch->course;
+        // Retrieve the course details through the student's batch
+        $course = $student->batch->course;
 
-           // Prepare the data to pass to the Blade view
-           $data = [
-               'student' => $student,
-               'course' => $course,
-           ];
+        // Prepare the data to pass to the Blade view
+        $data = [
+            'student' => $student,
+            'course' => $course,
+        ];
 
         return view('certificate_page.certificate_page', $data);
     }
+
+    public function studentMultipleImageUpload()
+    {
+        return view('students.multiple_image_upload.student_multiple_image_upload');
+    }
+
+    public function uploadImages(Request $request)
+    {
+       
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'images' => 'required|array|min:1', // Ensure 'images' is an array and has at least one file
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file in the array
+            ],
+            [
+                'images.required' => 'Please select at least one image to upload.',
+                'images.array' => 'The images field must be an array.',
+                'images.min' => 'Please select at least one image to upload.',
+                'images.*.required' => 'Please select a valid image file.',
+                'images.*.image' => 'The selected file must be an image.',
+                'images.*.mimes' => 'Only images of type jpeg, png, jpg, and gif are allowed.',
+                'images.*.max' => 'Each image must not exceed 2MB in size.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages()
+            ]);
+        } else {
+            $imagePaths = []; // To store the paths of uploaded images
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    if ($image->isValid()) { // Check if the file is valid
+                        $fileName = $image->getClientOriginalName(); // Use the original filename
+                        $image->move(public_path('images'), $fileName);
+                        $imagePaths[] = 'images/' . $fileName; // Save the path to array
+                    }
+                }
+            }
+            
+            return response()->json([
+                'status' => 200,
+                'message' => 'Images uploaded successfully!',
+                'images' => $imagePaths
+            ]);
+        }
+    }
+
 
     public function generatePDF()
     {
@@ -50,10 +102,10 @@ class StudentController extends Controller
 
         // Generate the PDF using the Blade view
         $pdf = PDF::loadView('students.certificate_pdf', $data)
-        ->setPaper('A4', 'landscape');
+            ->setPaper('A4', 'landscape');
 
         // Download the PDF
-        return $pdf->download($student->name_with_initial. '.pdf');//'certificate.pdf'
+        return $pdf->download($student->name_with_initial . '.pdf'); //'certificate.pdf'
     }
 
 
@@ -64,7 +116,7 @@ class StudentController extends Controller
     {
 
         //   $batches = Batch::select('id', 'batch_no', 'course_year')->distinct()->get();
-         $batches = Batch::selectRaw('MIN(id) as id, batch_no, course_year')->groupBy('batch_no', 'course_year')->get();
+        $batches = Batch::selectRaw('MIN(id) as id, batch_no, course_year')->groupBy('batch_no', 'course_year')->get();
         $courses = Course::all();
 
         return view('students.student', compact('courses', 'batches'));
@@ -85,7 +137,6 @@ class StudentController extends Controller
                 'message' => "No Records Found!"
             ]);
         }
-
     }
 
 
@@ -107,7 +158,7 @@ class StudentController extends Controller
 
     public function showBatchYear(string $batch_id)
     {
-        $batchNo = Batch::where('id', $batch_id)->select('id','course_year')->orderBy('course_year', 'desc')->get();
+        $batchNo = Batch::where('id', $batch_id)->select('id', 'course_year')->orderBy('course_year', 'desc')->get();
         if ($batchNo) {
             return response()->json([
                 'status' => 200,
@@ -187,6 +238,7 @@ class StudentController extends Controller
                 'address' => 'required',
                 'course_name' => 'required',
                 'year' => 'required',
+                'picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             ]
         );
@@ -197,6 +249,16 @@ class StudentController extends Controller
                 'errors' => $validator->messages()
             ]);
         } else {
+
+            // File Upload Logic
+            if ($request->hasFile('picture')) {
+                $file = $request->file('picture');
+                $fileName = time() . '.' . $file->extension();
+                $file->move(public_path('images'), $fileName);
+            } else {
+                $fileName = null; // Set default value if no file is uploaded
+            }
+            // File Upload Logic finished \
 
             $getValue = Student::create([
                 'register_date' => $request->register_date,
@@ -210,6 +272,7 @@ class StudentController extends Controller
                 'address' => $request->address,
                 'course_name' => $request->course_name,
                 'year' => $request->year,
+                'picture' => $fileName,
 
             ]);
 
@@ -281,22 +344,22 @@ class StudentController extends Controller
      */
     public function update(Request $request, int $id)
     {
-         // auto increment code for certificate_no start
-         $year = $request->year;
-         $latestCertificate = Student::whereRaw("SUBSTRING(certificate_no, 1, 4) = ?", [$year])->orderBy('certificate_no', 'desc')->first();
+        // auto increment code for certificate_no start
+        $year = $request->year;
+        $latestCertificate = Student::whereRaw("SUBSTRING(certificate_no, 1, 4) = ?", [$year])->orderBy('certificate_no', 'desc')->first();
 
-         if ($latestCertificate) {
-             $latestSequenceNo = intval(substr($latestCertificate->certificate_no, 4));
-             $nextSequenceNo = $latestSequenceNo + 1;
-         } else {
-             $nextSequenceNo = 1;
-         }
-         $certificateNo = $year . sprintf("%06d", $nextSequenceNo);
+        if ($latestCertificate) {
+            $latestSequenceNo = intval(substr($latestCertificate->certificate_no, 4));
+            $nextSequenceNo = $latestSequenceNo + 1;
+        } else {
+            $nextSequenceNo = 1;
+        }
+        $certificateNo = $year . sprintf("%06d", $nextSequenceNo);
 
-         // auto increment code for certificate_no end
+        // auto increment code for certificate_no end
 
 
-            // auto increment code for registration_no start
+        // auto increment code for registration_no start
 
         $courseId = $request->course_name; // Fetch course ID from request but this is forign key
         $course = Course::find($courseId); // Get the course record checking and getting from course table
@@ -327,6 +390,7 @@ class StudentController extends Controller
                 'address' => 'required',
                 'course_name' => 'required',
                 'year' => 'required',
+                'picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]
         );
 
@@ -338,6 +402,23 @@ class StudentController extends Controller
             ]);
         } else {
             $getValue = Student::find($id);
+
+            // File Upload Logic
+            if ($request->hasFile('picture')) {
+                $file = $request->file('picture');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images'), $fileName);
+
+
+                // Delete old image if it exists and is a file
+                $oldimagePath = public_path('images') . '/' . $getValue->picture;
+                if (file_exists($oldimagePath) && is_file($oldimagePath)) {
+                    unlink($oldimagePath);
+                }
+            } else {
+                $fileName = $getValue->picture; // Set default value if no file is uploaded
+            }
+            //image code end
 
             if ($getValue) {
                 $getValue->update([
@@ -353,6 +434,7 @@ class StudentController extends Controller
                     'address' => $request->address,
                     'course_name' => $request->course_name,
                     'year' => $request->year,
+                    'picture' => $fileName,
 
                 ]);
                 return response()->json([
@@ -378,6 +460,13 @@ class StudentController extends Controller
     {
         $getValue = Student::find($id);
         if ($getValue) {
+
+            // delete old image
+            $imagePath = public_path('images') . '/' . $getValue->picture;
+            if (file_exists($imagePath) && is_file($imagePath)) {
+                unlink($imagePath);
+            }
+            // delete old image finish
 
             $getValue->delete();
             return response()->json([

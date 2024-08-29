@@ -13,7 +13,7 @@ class StudentImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
 {
-    // dd($row);
+    //  dd($row);
   // Convert Excel serial dates to PHP date format
   $registerDate = Date::excelToDateTimeObject($row['registeration_date'])->format('Y-m-d');
   $effectiveDate = Date::excelToDateTimeObject($row['effective_date_of_certificate'])->format('Y-m-d');
@@ -37,6 +37,7 @@ class StudentImport implements ToModel, WithHeadingRow
     return new Student([
         'register_date' => $registerDate,
         'effective_date_of_certificate' => $effectiveDate,
+        'picture' => $row['picture'],
         'batch_id' => $batch->id,
         'full_name_of_student' => $row['full_name_of_student'],
         'name_with_initial' => $row['name_with_initial'],

@@ -29,7 +29,7 @@
                                 <button type="button" class="btn btn-outline-info " id="addStudentButton">
                                     New <i class="fas fa-plus px-2"> </i>
                                 </button>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -39,6 +39,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Picture</th>
                                     <th>Register Date</th>
                                     <th>Effective Date Of Certificate</th>
                                     <th>Registration No</th>
@@ -79,6 +80,16 @@
                             <div class="row">
                                 <input type="hidden" name="edit_id" id="edit_id">
 
+                                <div class="col-md-12 mb-4 d-flex justify-content-center">
+                                    <img id="selectedImage" src="/assets/img/default-image.jpg" alt="Selected Image" width="70px" class="rounded-circle" height="70px">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="invoices-upload-btn">
+                                        <input class="hide-input mb-2 show-picture" id="edit_picture" name="picture" type="file">
+                                        <label for="file" class="upload">select picture </label>
+                                        <span class="text-danger" id="picture_error"></span>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group local-forms calendar-icon">
                                         <label>Registeration Date <span class="login-danger">*</span></label>

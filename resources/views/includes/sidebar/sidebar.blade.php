@@ -22,6 +22,7 @@
                     <ul>
                         <li><a href="{{ route('student') }}" class="{{ set_active(['student']) }}">student</a></li>
                         <li><a href="{{ route('excel-import-page-view') }}" class="{{ set_active(['excel-import-page-view']) }}">Upload students</a></li>
+                        <li><a href="{{ route('multiple-image') }}" class="{{ set_active(['multiple-image']) }}">Multiple Picture Upload</a></li>
                     </ul>
 
                 </li>

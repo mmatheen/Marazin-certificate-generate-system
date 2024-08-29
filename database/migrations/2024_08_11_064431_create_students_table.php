@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('course_name')->nullable();
             $table->string('year')->nullable();
+            $table->string('picture')->nullable();
             $table->integer('batch_id')->unsigned();
             $table->string('session_id')->nullable();
             $table->timestamps();
