@@ -18,12 +18,17 @@ class StudentExportTemplate implements FromCollection, WithHeadings
             'Registeration Date',
             'Effective Date of Certificate',
             'Batch No',
+            'Study Mode',
+            'Pass Rate',
             'Full Name of Student',
             'Name With Initial',
             'NIC No',
             'Address',
             'Course Name',
+            'Short Name',
+            'Course Duration',
             'Course Year',
+
         ];
     }
 

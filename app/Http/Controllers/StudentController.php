@@ -41,7 +41,7 @@ class StudentController extends Controller
 
     public function uploadImages(Request $request)
     {
-       
+
         $validator = Validator::make(
             $request->all(),
             [
@@ -76,7 +76,7 @@ class StudentController extends Controller
                     }
                 }
             }
-            
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Images uploaded successfully!',
@@ -102,7 +102,7 @@ class StudentController extends Controller
 
         // Generate the PDF using the Blade view
         $pdf = PDF::loadView('students.certificate_pdf', $data)
-            ->setPaper('A4', 'landscape');
+            ->setPaper('A4', 'portrait');
 
         // Download the PDF
         return $pdf->download($student->name_with_initial . '.pdf'); //'certificate.pdf'
@@ -116,7 +116,7 @@ class StudentController extends Controller
     {
 
         //   $batches = Batch::select('id', 'batch_no', 'course_year')->distinct()->get();
-        $batches = Batch::selectRaw('MIN(id) as id, batch_no, course_year')->groupBy('batch_no', 'course_year')->get();
+        $batches = Batch::selectRaw('MIN(id) as id, batch_no, course_year,course_duration')->groupBy('batch_no', 'course_year','course_duration')->get();
         $courses = Course::all();
 
         return view('students.student', compact('courses', 'batches'));
@@ -124,6 +124,7 @@ class StudentController extends Controller
 
     public function index()
     {
+
         $students = Student::with('batch.course')->get();
 
         if ($students->count() > 0) {
@@ -140,9 +141,9 @@ class StudentController extends Controller
     }
 
 
-    public function showBatchAndYear(string $course_id)
+    public function showBatchDetailsUsingByCourseId(string $course_id)
     {
-        $courseName = Batch::where('course_id', $course_id)->select('id', 'batch_no', 'course_year')->orderBy('batch_no', 'asc')->get();
+        $courseName = Batch::where('course_id', $course_id)->select('id', 'batch_no', 'course_year','course_duration')->orderBy('batch_no', 'asc')->get();
         if ($courseName) {
             return response()->json([
                 'status' => 200,
@@ -156,9 +157,9 @@ class StudentController extends Controller
         }
     }
 
-    public function showBatchYear(string $batch_id)
+    public function showBatchDetailsUsingByBatchId(string $batch_id)
     {
-        $batchNo = Batch::where('id', $batch_id)->select('id', 'course_year')->orderBy('course_year', 'desc')->get();
+        $batchNo = Batch::where('id', $batch_id)->select('id', 'course_year','course_duration')->orderBy('course_year', 'desc')->get();
         if ($batchNo) {
             return response()->json([
                 'status' => 200,
@@ -171,6 +172,7 @@ class StudentController extends Controller
             ]);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -211,7 +213,7 @@ class StudentController extends Controller
         $courseId = $request->course_name; // Fetch course ID from request but this is forign key
         $course = Course::find($courseId); // Get the course record checking and getting from course table
 
-        $prefix = 'IATSL/' . $course->course_name . '/';
+        $prefix = 'IATSL/' . $course->short_name . '/'.$year;
 
         $latestRegistration = Student::whereRaw("SUBSTRING(registration_no, 1, LENGTH(?)) = ?", [$prefix, $prefix])->orderBy('registration_no', 'desc')->first();
 
@@ -237,7 +239,10 @@ class StudentController extends Controller
                 'nic_no' => 'required|unique:students',
                 'address' => 'required',
                 'course_name' => 'required',
+                'course_duration' => 'required',
                 'year' => 'required',
+                'pass_rate' => 'required',
+                'study_mode' => 'required',
                 'picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             ]
@@ -271,7 +276,10 @@ class StudentController extends Controller
                 'nic_no' => $request->nic_no,
                 'address' => $request->address,
                 'course_name' => $request->course_name,
+                'course_duration' => $request->course_duration,
                 'year' => $request->year,
+                'pass_rate' => $request->pass_rate,
+                'study_mode' => $request->study_mode,
                 'picture' => $fileName,
 
             ]);
@@ -364,7 +372,7 @@ class StudentController extends Controller
         $courseId = $request->course_name; // Fetch course ID from request but this is forign key
         $course = Course::find($courseId); // Get the course record checking and getting from course table
 
-        $prefix = 'IATSL/' . $course->course_name . '/';
+        $prefix = 'IATSL/' . $course->short_name . '/';
 
         $latestRegistration = Student::whereRaw("SUBSTRING(registration_no, 1, LENGTH(?)) = ?", [$prefix, $prefix])->orderBy('registration_no', 'desc')->first();
 
@@ -389,7 +397,10 @@ class StudentController extends Controller
                 'nic_no' => 'required',
                 'address' => 'required',
                 'course_name' => 'required',
+                'course_duration' => 'required',
                 'year' => 'required',
+                'pass_rate' => 'required',
+                'study_mode' => 'required',
                 'picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]
         );
@@ -433,7 +444,10 @@ class StudentController extends Controller
                     'registration_no' => $registrationNo,
                     'address' => $request->address,
                     'course_name' => $request->course_name,
+                    'course_duration' => $request->course_duration,
                     'year' => $request->year,
+                    'pass_rate' => $request->pass_rate,
+                    'study_mode' => $request->study_mode,
                     'picture' => $fileName,
 
                 ]);

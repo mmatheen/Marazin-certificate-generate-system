@@ -8,7 +8,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Batch</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Batch</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">List Batch</li>
                         </ul>
                     </div>
@@ -40,8 +40,9 @@
                                     <th>ID</th>
                                     <th>Course Name</th>
                                     <th>Batch No</th>
+                                    <th>Course Duration</th>
                                     <th>Course Year</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -87,6 +88,13 @@
                                         <label>Batch No <span class="login-danger">*</span></label>
                                         <input class="form-control" id="edit_batch_no" name="batch_no" type="number" placeholder="Enter Batch No">
                                         <span class="text-danger" id="batch_no_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group local-forms">
+                                        <label>Course Duration <span class="login-danger">*</span></label>
+                                        <input class="form-control" id="edit_course_duration" name="course_duration" type="text" placeholder="Enter Duration">
+                                        <span class="text-danger" id="course_duration_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

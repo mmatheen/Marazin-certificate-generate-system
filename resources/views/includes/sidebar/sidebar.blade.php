@@ -27,13 +27,6 @@
 
                 </li>
 
-                <li class="submenu {{ set_active(['course']) }}">
-                    <a href="#"><i class="feather-grid"></i> <span> Course</span> <span class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{{ route('course') }}" class="{{ set_active(['course']) }}">course</a></li>
-                    </ul>
-                </li>
-
                 <li class="submenu {{ set_active(['batch']) }}">
                     <a href="#"><i class="feather-grid"></i> <span> Batch</span> <span class="menu-arrow"></span></a>
                     <ul>
@@ -41,6 +34,12 @@
                     </ul>
                 </li>
 
+                <li class="submenu {{ set_active(['course']) }}">
+                    <a href="#"><i class="feather-grid"></i> <span> Course</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{{ route('course') }}" class="{{ set_active(['course']) }}">course</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

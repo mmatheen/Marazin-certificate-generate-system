@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('name_with_initial');
             $table->string('nic_no');
             $table->string('address');
+            $table->string('pass_rate');
+            $table->string('study_mode');
             $table->string('course_name')->nullable();
+            $table->string('course_duration')->nullable();
             $table->string('year')->nullable();
             $table->string('picture')->nullable();
             $table->integer('batch_id')->unsigned();

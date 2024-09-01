@@ -59,6 +59,7 @@ class BatchController extends Controller
              'batch_no.unique' => 'The Batch Number, Course, and Course Year already exists. Please Add Unique Value.',
              'course_id.required' => 'Please select a course.',
              'course_year.required' => 'Course year is required.',
+             'course_duration.required' => 'Course Duration is required.',
          ];
 
          // Validate the request
@@ -69,11 +70,13 @@ class BatchController extends Controller
                      'required',
                      Rule::unique('batches')->where(function ($query) use ($request) {
                          return $query->where('course_id', $request->course_id)
-                                      ->where('course_year', $request->course_year);
+                                      ->where('course_year', $request->course_year)
+                                      ->where('course_duration', $request->course_duration);
                      }),
                  ],
                  'course_id' => 'required',
                  'course_year' => 'required',
+                 'course_duration' => 'required',
              ],
              $messages // Pass custom messages
          );
@@ -89,6 +92,7 @@ class BatchController extends Controller
                  'batch_no' => $request->batch_no,
                  'course_id' => $request->course_id,
                  'course_year' => $request->course_year,
+                 'course_duration' => $request->course_duration,
              ]);
 
              if ($getValue) {
@@ -164,6 +168,7 @@ class BatchController extends Controller
                 'batch_no' => 'required',
                 'course_id' => 'required',
                 'course_year' => 'required',
+                'course_duration' => 'required',
             ]
         );
 
@@ -182,6 +187,7 @@ class BatchController extends Controller
                    'batch_no' => $request->batch_no,
                    'course_id' => $request->course_id,
                    'course_year' => $request->course_year,
+                   'course_duration' => $request->course_duration,
                 ]);
                 return response()->json([
                     'status' => 200,

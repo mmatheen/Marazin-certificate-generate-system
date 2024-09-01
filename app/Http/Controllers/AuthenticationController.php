@@ -28,7 +28,7 @@ class AuthenticationController extends Controller
 
         // If validation fails, redirect back with error messages and input data
         if ($validator->fails()) {
-            return redirect()->route('user/login')->withErrors($validator)->withInput()->with('toastr-error', 'Username and password are required!');
+            return redirect()->route('userLogin')->withErrors($validator)->withInput()->with('toastr-error', 'Username and password are required!');
         }
 
         // Attempt to authenticate the user
@@ -92,7 +92,7 @@ class AuthenticationController extends Controller
         // Validate the user input
         $validator = Validator::make($request->all(), [
             'nic_no' => 'required',
-            'registration_no' => 'required',
+            'certificate_no' => 'required',
         ]);
 
         // If validation fails, redirect back with error messages and input data
@@ -103,7 +103,7 @@ class AuthenticationController extends Controller
 
         // Manually authenticate the student without a password
         $student = Student::where('nic_no', $request->nic_no)
-            ->where('registration_no', $request->registration_no)
+            ->where('certificate_no', $request->certificate_no)
             ->first();
 
         if ($student) {
@@ -126,7 +126,7 @@ class AuthenticationController extends Controller
             return redirect()->route('student-certificate')
                 ->with('toastr-success', 'You Logged in Successfully! ' . $userName);
         } else {
-            return redirect('/')->with('toastr-error', 'NIC and Registration No do not match!');
+            return redirect('/')->with('toastr-error', 'NIC and Certificate No do not match!');
         }
     }
 

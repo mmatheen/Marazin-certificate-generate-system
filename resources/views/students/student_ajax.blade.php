@@ -19,7 +19,19 @@
                 required: true,
 
             },
+            pass_rate: {
+                required: true,
+
+            },
+            study_mode: {
+                required: true,
+
+            },
             course_name: {
+                required: true,
+
+            },
+            course_duration: {
                 required: true,
 
             },
@@ -68,8 +80,17 @@
             year: {
                 required: "Year is required",
             },
+            pass_rate: {
+                required: "Pass Rate is required",
+            },
+            study_mode: {
+                required: "Study Mode is required",
+            },
             course_name: {
                 required: "Course Name is required",
+            },
+            course_duration: {
+                required: "Course Duration is required",
             },
             registration_no: {
                 required: "Registration No is required",
@@ -133,6 +154,9 @@
             $('#addAndUpdateForm').validate().resetForm();
             $('#addAndUpdateForm').find('.is-invalidRed').removeClass('is-invalidRed');
             $('#addAndUpdateForm').find('.is-validGreen').removeClass('is-validGreen');
+            
+             // Reset the image to the default
+            $('#selectedImage').attr('src', '/assets/img/default-image.jpg');
         }
 
         // Clear form and validation errors when the modal is hidden
@@ -169,21 +193,25 @@
                                 // Provide default image path
                                 row.append('<td><img src="assets/img/default-image.jpg" width="50px" class="rounded-circle" height="50px" alt="default image"></td>');
                                  }
-                                row.append('<td>' + item.register_date + '</td>');
-                                row.append('<td>' + item.effective_date_of_certificate + '</td>');
-                                row.append('<td>' + item.registration_no + '</td>');
-                                row.append('<td>' + item.certificate_no + '</td>');
-                                row.append('<td>' + item.reference_no + '</td>');
-                                row.append('<td>' + item.batch.batch_no + '</td>');
-                                row.append('<td>' + item.batch.course_year + '</td>');
-                                row.append('<td>' + item.batch.course.course_name + '</td>');
-                                row.append('<td>' + item.full_name_of_student + '</td>');
-                                row.append('<td>' + item.name_with_initial + '</td>');
-                                row.append('<td>' + item.nic_no + '</td>');
-                                row.append('<td>' + item.address + '</td>');
+                                 row.append('<td>' + item.registration_no + '</td>');
+                                 row.append('<td>' + item.full_name_of_student + '</td>');
+                                 row.append('<td>' + item.name_with_initial + '</td>');
+                                 row.append('<td>' + item.address + '</td>');
+                                 row.append('<td>' + item.batch.course.course_name + '</td>');
+                                 row.append('<td>' + item.nic_no + '</td>');
+                                 row.append('<td>' + item.course_duration + '</td>');
+                                 row.append('<td>' + item.batch.batch_no + '</td>');
+                                 row.append('<td>' + item.register_date + '</td>');
+                                 row.append('<td>' + item.effective_date_of_certificate + '</td>');
+                                 row.append('<td>' + item.study_mode + '</td>');
+                                 row.append('<td>' + item.pass_rate + '</td>');
+                                 row.append('<td>' + item.certificate_no + '</td>');
+                                 row.append('<td>' + item.reference_no + '</td>');
+                                 row.append('<td>' + item.batch.course_year + '</td>');
                                 row.append('<td><button type="button" value="' + item.id + '" class="edit_btn btn btn-outline-info btn-sm me-2"><i class="feather-edit text-info"></i> Edit</button><button type="button" value="' + item.id + '" class="delete_btn btn btn-outline-danger btn-sm"><i class="feather-trash-2 text-danger me-1"></i> Delete</button></td>');
                                 table.row.add(row).draw(false);
                                 counter++;
+
                         });
                     },
                 });
@@ -215,7 +243,11 @@
                         $('#edit_course_name').val(response.message.course_name);
                         $('#edit_batch_id').val(response.message.batch.batch_no);
                         $('#edit_year').val(response.message.batch.course_year);
+                        $('#edit_course_duration').val(response.message.batch.course_duration);
                         $('#edit_address').val(response.message.address);
+                        $('#edit_pass_rate').val(response.message.pass_rate);
+                        $('#edit_study_mode').val(response.message.study_mode);
+
                         if (response.message.picture) {
                             $('#selectedImage').attr('src', 'images/' + response.message.picture);
                             } else {
@@ -302,7 +334,7 @@
 
 
 
-        // Delete Warranty
+        // Delete Student
         $(document).on('click', '.delete_btn', function() {
             var id = $(this).val();
             $('#deleteModal').modal('show');
@@ -331,74 +363,85 @@
         });
 
 
-         // Disable the batch_no dropdown Before course_name is selected
-        //  $('#edit_batch_id').prop('disabled', true);
-        //  $('#edit_year').prop('disabled', true);
+   // Clear and reset the edit_batch_id, edit_year, edit_course_duration   dropdown
+//    $('#edit_batch_id').empty().append('<option selected disabled>Please Select Batch</option>');
+//    $('#edit_year').empty().append('<option selected disabled>Please Select Year</option>');
+//    $('#edit_course_duration').empty().append('<option selected disabled>Please Select Course Duration</option>');
 
-     // Get value of courseName
-        $('#edit_course_name').change(function() {
-            var course_id = $(this).val();
-            console.log(course_id);
 
-            // Clear and reset the batch_no dropdown
-            $('#edit_batch_id').empty().append('<option selected disabled>Please Select Batch</option>');
-            $('#edit_year').empty().append('<option selected disabled>Please Select Year</option>'); // Keep year dropdown disabled and clear options
+    // Get value of courseName
+  $('#edit_course_name').change(function() {
+    var course_id = $(this).val();
+    console.log(course_id);
 
-            $.ajax({
-                url: 'batch-get-by-courseName/' + course_id,
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == 200) {
-                        // Populate the batch_no options
-                        response.message.forEach(function(batch) {
-                            // Enable the option but leave the dropdown enabled
-                            $('#edit_batch_id').append('<option value="' + batch.id + '">' + batch.batch_no + '</option>');
-                        });
+    // Clear and reset the batch_no dropdown
+    $('#edit_batch_id').empty().append('<option selected disabled>Please Select Batch</option>');
+    $('#edit_year').empty().append('<option selected disabled>Please Select Year</option>'); // Keep year dropdown disabled and clear options
+    $('#edit_course_duration').empty().append('<option selected disabled>Please Select Course Duration</option>');
 
-                        // Enable the batch_no dropdown after course_name is selected
-                        // $('#edit_batch_id').prop('disabled', false);
-                    } else {
-                        console.log('Error: ', response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('AJAX Error: ', error);
+    $.ajax({
+        url: 'batch-get-by-courseName/' + course_id,
+        type: 'get',
+        dataType: 'json',
+        success: function(response) {
+            if (response.status == 200) {
+                // Populate the batch_no options
+                response.message.forEach(function(batch) {
+                    $('#edit_batch_id').append('<option value="' + batch.id + '">' + batch.batch_no + '</option>');
+                });
+
+                // Enable the batch_no dropdown after course_name is selected
+                $('#edit_batch_id').prop('disabled', false);
+            } else {
+                console.log('Error: ', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX Error: ', error);
+        }
+    });
+});
+
+// Get value of batch_no
+$('#edit_batch_id').change(function() {
+    var batch_id = $(this).val();
+    console.log(batch_id);
+
+    // Clear and reset the year dropdown
+    $('#edit_year').empty().append('<option selected disabled>Please Select Year</option>');
+    $('#edit_course_duration').empty().append('<option selected disabled>Please Select Course Duration</option>');
+
+    $.ajax({
+        url: 'batch-get-by-batch-no/' + batch_id,
+        type: 'get',
+        dataType: 'json',
+        success: function(response) {
+            if (response.status == 200) {
+                // Populate the year options
+                response.message.forEach(function(batch) {
+                    $('#edit_year').append('<option value="' + batch.course_year + '">' + batch.course_year + '</option>');
+                    $('#edit_course_duration').append('<option value="' + batch.course_duration + '">' + batch.course_duration + '</option>');
+                });
+
+                // Automatically select the first year after batch_no is selected
+                if (response.message.length > 0) {
+                    $('#edit_year').val(response.message[0].course_year);
+                    $('#edit_course_duration').val(response.message[0].course_duration);
                 }
-            });
-        });
 
-        // Get value of batch_no
-        $('#edit_batch_id').change(function() {
-            var batch_id = $(this).val();
-            console.log(batch_id);
+                // Enable the year dropdown after batch_no is selected
+                $('#edit_year').prop('disabled', false);
+                $('#edit_course_duration').prop('disabled', false);
+            } else {
+                console.log('Error: ', response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX Error: ', error);
+        }
+    });
+});
 
-            // Clear and reset the year dropdown
-            $('#edit_year').empty().append('<option selected disabled>Please Select Year</option>');
-
-            $.ajax({
-                url: 'batch-get-by-batch-no/' + batch_id,
-                type: 'get',
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == 200) {
-                        // Populate the year options
-                        response.message.forEach(function(batch) {
-                            // Enable the option but leave the dropdown enabled
-                            $('#edit_year').append('<option value="' + batch.course_year + '">' + batch.course_year + '</option>');
-                        });
-
-                        // Enable the year dropdown after batch_no is selected
-                        // $('#edit_year').prop('disabled', false);
-                    } else {
-                        console.log('Error: ', response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('AJAX Error: ', error);
-                }
-            });
-        });
 
 
 

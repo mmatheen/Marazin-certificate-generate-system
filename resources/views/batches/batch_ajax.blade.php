@@ -14,6 +14,10 @@
                 required: true,
 
             },
+            course_duration: {
+                required: true,
+
+            },
             course_year: {
                 required: true,
 
@@ -27,6 +31,9 @@
             },
             batch_no: {
                 required: "BatchNo Name is required",
+            },
+            course_duration: {
+                required: "Course Duration is required",
             },
             course_year: {
                 required: "Course Year is required",
@@ -91,6 +98,7 @@
                         row.append('<td>' + counter  + '</td>');
                         row.append('<td>' + item.course.course_name + '</td>');
                         row.append('<td>' + item.batch_no + '</td>');
+                        row.append('<td>' + item.course_duration + '</td>');
                         row.append('<td>' + item.course_year + '</td>');
                          row.append('<td><button type="button" value="' + item.id + '" class="edit_btn btn btn-outline-info btn-sm me-2"><i class="feather-edit text-info"></i> Edit</button><button type="button" value="' + item.id + '" class="delete_btn btn btn-outline-danger btn-sm"><i class="feather-trash-2 text-danger me-1"></i>Delete</button></td>');
                         table.row.add(row).draw(false);
@@ -118,6 +126,7 @@
                     } else if (response.status == 200) {
                         $('#edit_batch_no').val(response.message.batch_no);
                         $('#edit_course_id').val(response.message.course_id);
+                        $('#edit_course_duration').val(response.message.course_duration);
                         $('#edit_course_year').val(response.message.course_year);
                         $('#addAndEditBatchModal').modal('show');
                     }

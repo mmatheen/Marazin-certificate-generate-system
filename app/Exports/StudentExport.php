@@ -22,12 +22,17 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
             'Reference No',
             'Certificate No',
             'Batch No',
+            'Study Mode',
+            'Pass Rate',
             'Course Year',
             'Course Name',
+            'Short Name',
+            'Course Duration',
             'Full Name of Student',
             'Name With Initial',
             'NIC No',
             'Address',
+
         ];
     }
 
@@ -54,13 +59,16 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
             $student->reference_no,
             $student->certificate_no,
             $student->batch ? $student->batch->batch_no : null,
+            $student->batch ? $student->study_mode : null,
+            $student->batch ? $student->pass_rate : null,
             $student->batch ? $student->batch->course_year : null,
             $student->batch && $student->batch->course ? $student->batch->course->course_name : null,
+            $student->batch ? $student->batch->course_duration : null,
             $student->full_name_of_student,
             $student->name_with_initial,
             $student->nic_no,
             $student->address,
-           
+
         ];
     }
 }

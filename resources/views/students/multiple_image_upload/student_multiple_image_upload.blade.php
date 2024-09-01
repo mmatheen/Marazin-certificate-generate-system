@@ -8,7 +8,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Multiple Images</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Multiple Images</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Multiple Images</li>
                         </ul>
                     </div>

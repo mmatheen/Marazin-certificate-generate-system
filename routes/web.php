@@ -5,9 +5,10 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
-
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,14 @@ use Illuminate\Support\Facades\Request;
 */
 
 Route::get('/testing', function () {
-    return view('welcome');
-    // $student = Batch::find(1); // Replace 1 with a valid student ID
-    // if ($student) {
-    //     dd($student->students); // Correct method name to match the relationship
-    // } else {
-    //     dd('Student not found');
-    // }
+    // return view('welcome');
+
+    $student = Course::find(2); // Replace 1 with a valid student ID
+    if ($student) {
+        dd($student->short_name); // Correct method name to match the relationship
+    } else {
+        dd('Student not found');
+    }
 
 });
 
@@ -69,8 +71,9 @@ Route::middleware(['auth:web','auth.session'])->group(function () {
         Route::post('/student-update/{id}', [StudentController::class, 'update']);
         Route::delete('/student-delete/{id}', [StudentController::class, 'destroy']);
 
-        Route::get('/batch-get-by-courseName/{course_id}', [StudentController::class, 'showBatchAndYear'])->name('batch-get-by-courseName');
-        Route::get('/batch-get-by-batch-no/{batch_id}', [StudentController::class, 'showBatchYear'])->name('batch-get-by-batch-no');
+        Route::get('/batch-get-by-courseName/{course_id}', [StudentController::class, 'showBatchDetailsUsingByCourseId'])->name('batch-get-by-courseName');
+        Route::get('/batch-get-by-batch-no/{batch_id}', [StudentController::class, 'showBatchDetailsUsingByBatchId'])->name('batch-get-by-batch-no');
+
         // Student multiple image upload routes
         Route::get('/multiple-image', [StudentController::class, 'studentMultipleImageUpload'])->name('multiple-image');
         Route::post('/upload-images', [StudentController::class, 'uploadImages'])->name('upload-images');

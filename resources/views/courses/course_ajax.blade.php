@@ -10,12 +10,19 @@
                 required: true,
 
             },
+            short_name: {
+                required: true,
+
+            },
 
         },
         messages: {
 
             course_name: {
                 required: "Course Name is required",
+            },
+            short_name: {
+                required: "Short Name is required",
             },
 
         },
@@ -76,6 +83,7 @@
                         let row = $('<tr>');
                         row.append('<td>' + counter  + '</td>');
                         row.append('<td>' + item.course_name + '</td>');
+                        row.append('<td>' + item.short_name + '</td>');
                          row.append('<td><button type="button" value="' + item.id + '" class="edit_btn btn btn-outline-info btn-sm me-2"><i class="feather-edit text-info"></i> Edit</button><button type="button" value="' + item.id + '" class="delete_btn btn btn-outline-danger btn-sm"><i class="feather-trash-2 text-danger me-1"></i>Delete</button></td>');
                         table.row.add(row).draw(false);
                         counter++;
@@ -101,6 +109,7 @@
                         toastr.error(response.message, 'Error');
                     } else if (response.status == 200) {
                         $('#edit_course_name').val(response.message.course_name);
+                        $('#edit_short_name').val(response.message.short_name);
                         $('#addAndEditCourseModal').modal('show');
                     }
                 }

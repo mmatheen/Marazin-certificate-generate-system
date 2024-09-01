@@ -54,6 +54,7 @@ class CourseController extends Controller
             [
 
                 'course_name' => 'required|unique:courses',
+                'short_name' => 'required|unique:courses',
 
             ]
         );
@@ -67,6 +68,7 @@ class CourseController extends Controller
 
             $getValue = Course::create([
                 'course_name' => $request->course_name,
+                'short_name' => $request->short_name,
 
 
             ]);
@@ -143,6 +145,7 @@ class CourseController extends Controller
             $request->all(),
             [
                 'course_name' => 'required',
+                'short_name' => 'required',
             ]
         );
 
@@ -158,6 +161,7 @@ class CourseController extends Controller
             if ($getValue) {
                 $getValue->update([
                     'course_name' => $request->course_name,
+                    'short_name' => $request->short_name,
 
                 ]);
                 return response()->json([

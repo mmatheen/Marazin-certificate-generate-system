@@ -12,6 +12,7 @@ class Batch extends Model
     protected $fillable = [
         'batch_no',
         'course_id',
+        'course_duration',
         'course_year',
     ];
 

@@ -26,7 +26,10 @@ class Student extends Authenticatable
         'nic_no',
         'address',
         'course_name',
+        'course_duration',
         'year',
+        'pass_rate',
+        'study_mode',
         'picture',
         'session_id',
     ];
@@ -67,7 +70,8 @@ class Student extends Authenticatable
             $course = Course::find($courseId);
 
             if ($course) { // Ensure course is valid
-                $prefix = 'IATSL/' . $course->course_name . '/';
+                $year = $model->year;
+                $prefix = 'IATSL/' . $course->short_name . '/' . $year;
                 $latestRegistration = self::whereRaw("SUBSTRING(registration_no, 1, LENGTH(?)) = ?", [$prefix, $prefix])
                     ->orderBy('registration_no', 'desc')
                     ->first();

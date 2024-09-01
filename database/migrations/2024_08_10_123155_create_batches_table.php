@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('batch_no');
             $table->string('course_year');
+            $table->string('course_duration');
             $table->integer('course_id')->unsigned();
             $table->timestamps();
 

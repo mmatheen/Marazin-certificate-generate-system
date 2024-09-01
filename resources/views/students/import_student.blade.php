@@ -7,7 +7,7 @@
             <div class="col">
                 <h3 class="page-title">Import Student</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Import Student</li>
                 </ul>
             </div>

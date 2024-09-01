@@ -8,7 +8,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Student</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Student</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">List Student</li>
                         </ul>
                     </div>
@@ -40,19 +40,22 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Picture</th>
-                                    <th>Register Date</th>
-                                    <th>Effective Date Of Certificate</th>
                                     <th>Registration No</th>
-                                    <th>Certificate No</th>
-                                    <th>Reference No</th>
-                                    <th>Batch No</th>
-                                    <th>Course Year</th>
-                                    <th>course Name</th>
                                     <th>Full Name Of Student</th>
                                     <th>Name With Initial</th>
-                                    <th>NIC No</th>
                                     <th>Address</th>
-                                    <th>Action</th>
+                                    <th>course Name</th>
+                                    <th>NIC No</th>
+                                    <th>Duration</th>
+                                    <th>Batch No</th>
+                                    <th>Register Date</th>
+                                    <th>Effective Date Of Certificate</th>
+                                    <th>Study Mode</th>
+                                    <th>Pass Grade</th>
+                                    <th>Certificate No</th>
+                                    <th>Reference No</th>
+                                    <th>Course Year</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -92,7 +95,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group local-forms calendar-icon">
-                                        <label>Registeration Date <span class="login-danger">*</span></label>
+                                        <label>Registration Date <span class="login-danger">*</span></label>
                                         <input type="text" name="register_date" id="edit_register_date" autocomplete="off" placeholder="YYYY.MM.DD" class="form-control datetimepicker me-5">
                                     </div>
                                     <span class="text-danger" id="register_date_error"></span>
@@ -129,6 +132,18 @@
                                     </div>
                                 </div>
 
+
+                                <div class="col-md-6">
+                                    <div class="form-group local-forms">
+                                        <label>Course Duration<span class="login-danger">*</span></label>
+                                        <select id="edit_course_duration" name="course_duration" class="form-control">
+                                            <option selected disabled>Please Select Couse Duration</option>
+                                            @foreach($batches as $batch)
+                                              <option>{{ $batch->course_duration }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group local-forms">
                                         <label>Year<span class="login-danger">*</span></label>
@@ -140,6 +155,32 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group local-forms">
+                                        <label>Pass Rate<span class="login-danger">*</span></label>
+                                        <select id="edit_pass_rate" name="pass_rate" class="form-control">
+                                            <option selected disabled>Please Select Pass Rate</option>
+                                            <option value="Distinction">First Class Honors / Distinction</option>
+                                            <option value="Merit">Second Class Upper Division / Merit</option>
+                                            <option value="General Pass">Second Class Lower Division / General Pass</option>
+                                            <option value="Pass">Third Class / Pass</option>
+                                            <option value="Fail">Fail</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group local-forms">
+                                        <label>Study Mode<span class="login-danger">*</span></label>
+                                        <select id="edit_study_mode" name="study_mode" class="form-control">
+                                            <option selected disabled>Please Select Study Mode</option>
+                                                <option value="On-Site">On-Site</option>
+                                                <option value="Online">Online</option>
+                                                <option value="Hybrid">Hybrid</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
 
                                 <div class="col-md-6">
                                     <div class="form-group local-forms">

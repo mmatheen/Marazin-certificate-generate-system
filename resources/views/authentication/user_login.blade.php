@@ -31,12 +31,16 @@
             <div class="container">
                 <div class="loginbox">
                     <div class="login-left">
-                        <img class="img-fluid" src="{{ URL::to('assets/img/login.png') }}" alt="Logo">
+                        <img class="img-fluid"  src="{{ URL::to('assets/img/login6.jpg') }}" alt="Logo">
                     </div>
 
                     <div class="login-right">
                         <div class="login-right-wrap">
-                            <h1 class="mb-4">Welcome to Marazin login</h1>
+                            <div class="d-flex justify-content-center mb-3">
+                                <a href="https://iatsl.lk" target="_blank"><img class="img-fluid" width="100px" height="100px" src="{{ URL::to('assets/img/logo-small.png') }}" alt="Logo"></a>
+                            </div>
+
+                            <h1 class="mb-4">Welcome to iatsl.lk</h1>
                             <form action="{{ route('user/login') }}" method="POST">
                                 @csrf
                                 <div class="form-group">

@@ -7,7 +7,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Welcome Admin!</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Home</a></li>
                             <li class="breadcrumb-item active">Admin</li>
                         </ul>
                     </div>

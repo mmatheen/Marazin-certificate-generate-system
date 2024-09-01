@@ -8,7 +8,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Course</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Course</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">List Course</li>
                         </ul>
                     </div>
@@ -39,7 +39,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Course Name</th>
-                                    <th>Action</th>
+                                    <th>Short Name</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -72,6 +73,13 @@
                                         <label>Course Name <span class="login-danger">*</span></label>
                                         <input class="form-control" id="edit_course_name" name="course_name" placeholder="Enter Course Name">
                                         <span class="text-danger" id="course_name_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group local-forms">
+                                        <label>Short Name <span class="login-danger">*</span></label>
+                                        <input class="form-control" id="edit_short_name" name="short_name" placeholder="Enter Short Name">
+                                        <span class="text-danger" id="short_name_error"></span>
                                     </div>
                                 </div>
                             </div>
