@@ -28,7 +28,7 @@ class AuthenticationController extends Controller
 
         // If validation fails, redirect back with error messages and input data
         if ($validator->fails()) {
-            return redirect()->route('userLogin')->withErrors($validator)->withInput()->with('toastr-error', 'Username and password are required!');
+            return redirect()->route('user-login')->withErrors($validator)->withInput()->with('toastr-error', 'Username and password are required!');
         }
 
         // Attempt to authenticate the user

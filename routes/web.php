@@ -110,7 +110,7 @@ Route::middleware(['auth:web','auth.session'])->group(function () {
 // without logout you can't go to login page
 Route::middleware(['guest:web','auth.session'])->group(function () {
 
-    Route::get('/user-login', [AuthenticationController::class, 'userLogin'])->name('userLogin');
+    Route::get('/user-login', [AuthenticationController::class, 'userLogin'])->name('user-login');
 });
 
 // without logout you can't go to student login page
